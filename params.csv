@@ -1,0 +1,4 @@
+key,value_fr,value_de
+URL,https://sit.vs.ch/arcgis/services/MO/MapServer/WMSServer?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities,https://sit.vs.ch/arcgis/services/AV/MapServer/WMSServer?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities
+name,0,0
+description,Lots,Los

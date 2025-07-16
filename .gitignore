@@ -1,0 +1,6 @@
+.env
+geocat-venv/
+updates.yml
+params.yml
+params.csv
+__pycache__/
