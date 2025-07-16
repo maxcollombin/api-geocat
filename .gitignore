@@ -4,3 +4,4 @@ updates.yml
 params.yml
 params.csv
 __pycache__/
+backups/
