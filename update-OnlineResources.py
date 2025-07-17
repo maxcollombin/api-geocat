@@ -3,6 +3,7 @@ import yaml
 from lxml import etree
 from authenticate import authenticate
 from Generate_OnlineResource_XML import Generate_OnLineResource_XML
+from retrieve_record_xpath import retrieve_metadata_by_xpath  # ✅ à ajouter
 
 # Charger les configurations YAML
 with open("updates.yml", "r", encoding="utf-8") as f:
@@ -14,11 +15,17 @@ session, server = authenticate()
 # Itérer sur chaque mise à jour
 for entry in config["updates"]:
     uuid = entry["uuid"]
-    xml_snippet = Generate_OnLineResource_XML(entry)
+
+    # ✅ Charger les éléments existants
+    xpath = ".//gmd:MD_DigitalTransferOptions"
+    existing_elements = retrieve_metadata_by_xpath(uuid, xpath)
+
+    # ✅ Appel correct avec deux arguments
+    xml_snippet = Generate_OnLineResource_XML(entry, existing_elements)
 
     json_body = [
         {
-            "xpath": ".//gmd:MD_DigitalTransferOptions",
+            "xpath": xpath,
             "value": xml_snippet,
             "condition": ""
         }

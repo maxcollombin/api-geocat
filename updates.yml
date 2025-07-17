@@ -1,11 +1,11 @@
 updates:
-  - uuid: c885c51c-a7c3-4cf7-8cab-13281b8aca09
+  - uuid: <uuid>
     URL:
-      fr: https://sit.vs.ch/arcgis/services/MO/MapServer/WMSServer?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities
-      de: https://sit.vs.ch/arcgis/services/AV/MapServer/WMSServer?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities
+      fr: <url-fr>
+      de: <url-de>
     name:
-      fr: 0
-      de: 0
+      fr: <name-fr>
+      de: <name-de>
     description:
-      fr: Lots
-      de: Los
+      fr: <description-fr>
+      de: <description-de>

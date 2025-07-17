@@ -2,23 +2,36 @@ import requests
 from dotenv import load_dotenv
 import os
 
-# Charger des informations d'environnement depuis le fichier .env
+# Remove any existing environment variables
+os.environ.clear()
+
+# Load environment variables from the .env file
 load_dotenv()
 
 def authenticate():
-    # Accéder aux variables
+    # Determine the environment
+    environment = os.getenv("ENVIRONMENT", "dev")  # Default to "dev" if not set
+
+    # Select the appropriate URL based on the environment
+    if environment == "prod":
+        api_url = os.getenv("GEOCAT_URL_PROD")
+    elif environment == "dev":
+        api_url = os.getenv("GEOCAT_URL_DEV")
+    else:
+        raise ValueError(f"Invalid environment: {environment}. Use 'dev' or 'prod'.")
+
+    # Access credentials
     user = os.getenv("GEOCAT_USERNAME")
     pwd = os.getenv("GEOCAT_PASSWORD")
-    api_url = os.getenv("GEOCAT_URL")
 
-    # Créer une session
+    # Create a session
     session = requests.Session()
     session.cookies.clear()
 
-    # Stocker les informations d'authentification dans la session
+    # Store authentication information in the session
     session.auth = (user, pwd)
 
-    # Envoi d'une requête GET pour récupérer le token XSRF
+    # Send a GET request to retrieve the XSRF token
     try:
         response = session.get(
             api_url + '/me',
@@ -37,7 +50,7 @@ def authenticate():
         print("Request Error:", e)
         raise ValueError("Request Error occurred.")
 
-    # Copie du token XSRF dans les cookies de la session
+    # Copy the XSRF token into the session cookies
     token = session.cookies.get("XSRF-TOKEN")
     if token:
         print("XSRF-TOKEN:", token)
@@ -46,3 +59,13 @@ def authenticate():
     else:
         print("XSRF-TOKEN not found in cookies.")
         raise ValueError("XSRF-TOKEN not found.")
+
+if __name__ == "__main__":
+    try:
+        session, api_url = authenticate()
+        print("Authentication successful. Session and API URL are ready to use.")
+        print("API URL:", f"{api_url}/me")  # Print the URL
+    except ValueError as e:
+        print("Authentication failed:", e)
+    except Exception as e:
+        print("An unexpected error occurred:", e)
