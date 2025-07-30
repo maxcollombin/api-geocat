@@ -3,7 +3,7 @@ import yaml
 from lxml import etree
 from authenticate import authenticate
 from Generate_OnlineResource_XML import Generate_OnLineResource_XML
-from retrieve_record_xpath import retrieve_metadata_by_xpath  # ✅ à ajouter
+from retrieve_record_xpath import retrieve_metadata_by_xpath
 
 # Charger les configurations YAML
 with open("updates.yml", "r", encoding="utf-8") as f:

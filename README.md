@@ -35,3 +35,39 @@ Enter the XPath to retrieve metadata: .//gmd:distributionFormat
 The command is the same as above but with the following xpath:
 
 `.//gmd:MD_DigitalTransferOptions`
+
+#### Retrieve the Keywords associated with the record
+
+.//gmd:descriptiveKeywords
+
+#### Retrieve the internal identifier of a record
+
+Use the **retrieve_record_internal-Ref.py** script with a csv containing the list of uuids respecting the following structure:
+
+```csv
+geocat_uuid
+<uuid>
+<uuid>
+```
+#### Add WMS service information as Online Resources
+
+1. Copy and modify the update the updates.yml.example file
+
+`cp updates.yml.example updates.yml`
+
+2. Run the script update-OnlineResources.py
+
+`python3 update-OnlineResources.py`
+
+#### Update the distribution format
+
+1. Update the file updates.yml as follow (e.g. for a WMS) :
+
+```yml
+updates:
+  - uuid: <record_uuid>
+    distributionFormat: 
+      - OGC Web Map Service (WMS)
+```
+
+2. Run the script Put-distributionFormat.py

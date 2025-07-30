@@ -63,7 +63,8 @@ def Generate_OnLineResource_XML(params, existing_elements):
 
     # protocol
     protocol = el("protocol")
-    protocol.append(text_el("CharacterString", "OGC:WMS"))
+    service_type = params.get('type', 'WMS').upper()  # Par défaut, WMS
+    protocol.append(text_el("CharacterString", f"OGC:{service_type}"))
     ci_online.append(protocol)
 
     # name
@@ -80,29 +81,18 @@ def Generate_OnLineResource_XML(params, existing_elements):
     })
     ci_online.append(desc_elem)
 
+    # function
+    function = el("function")
+    function_code = el("CI_OnLineFunctionCode")
+    function_code.attrib["codeList"] = "http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_OnLineFunctionCode"
+    function_code.attrib["codeListValue"] = "download"
+    function.append(function_code)
+    ci_online.append(function)
+
     online.append(ci_online)
     root.append(online)
 
     return etree.tostring(root, pretty_print=True, encoding='unicode')
-
-def compare_with_reference(generated_xml, reference_path):
-    if not os.path.exists(reference_path):
-        print(f"⚠️ Fichier de référence {reference_path} non trouvé.")
-        return
-    with open(reference_path, 'r', encoding='utf-8') as f:
-        reference_xml = f.read()
-
-    generated_lines = generated_xml.strip().splitlines()
-    reference_lines = reference_xml.strip().splitlines()
-
-    diff = list(difflib.unified_diff(reference_lines, generated_lines, fromfile='reference.xml', tofile='generated.xml', lineterm=''))
-
-    if diff:
-        print("=== DIFF avec le fichier de référence ===")
-        for line in diff:
-            print(line)
-    else:
-        print("✅ Aucun écart détecté avec le fichier de référence.")
 
 def test_xml_generation():
     params_yaml = load_params_from_yaml('updates.yml')
@@ -115,9 +105,6 @@ def test_xml_generation():
 
     print("=== XML généré ===")
     print(generated_xml)
-
-    reference_file = f"responses/metadata_{uuid}.xml"
-    compare_with_reference(generated_xml, reference_file)
 
 if __name__ == "__main__":
     test_xml_generation()

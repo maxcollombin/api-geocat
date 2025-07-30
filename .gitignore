@@ -3,5 +3,7 @@ geocat-venv/
 updates.yml
 params.yml
 params.csv
+responses/
+updates-WFS.yml
 __pycache__/
 backups/

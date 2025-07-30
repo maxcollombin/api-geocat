@@ -1,0 +1,12 @@
+updates:
+  - uuid: <uuid>
+    type: WMS
+    URL:
+      fr: <url-fr>
+      de: <url-de>
+    name:
+      fr: <name-fr>
+      de: <name-de>
+    description:
+      fr: <description-fr>
+      de: <description-de>
